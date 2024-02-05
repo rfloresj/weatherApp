@@ -2,7 +2,7 @@ import React from "react";
 import { BsSun } from "react-icons/bs";
 import { GrMapLocation } from "react-icons/gr";
 import { SlLocationPin } from "react-icons/sl";
-import SearchBar from "./SearchBar";
+import SearchBar from "../components/SearchBar";
 
 type Props = {};
 
