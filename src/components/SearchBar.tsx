@@ -1,5 +1,6 @@
 import React from "react";
 import { IoIosSearch } from "react-icons/io";
+import { cn } from "@/utils/cn";
 
 type Props = {
   className?: string;
@@ -12,7 +13,10 @@ export default function SearchBar(props: Props) {
   return (
     <form
       onSubmit={props.onSubmit}
-      className="flex relative items-center justify-center h-10"
+      className={cn(
+        "flex relative items-center justify-center h-10",
+        props.className
+      )}
     >
       <input
         type="text"
