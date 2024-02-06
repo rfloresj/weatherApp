@@ -7,6 +7,7 @@ import axios from "axios";
 import { format, parseISO } from "date-fns";
 import Container from "@/components/container";
 import { convertKelvinToVelsius } from "@/utils/convertKelvinToCelsius";
+import WeatherIcon from "@/components/WeatherIcon";
 
 //
 
@@ -118,6 +119,7 @@ export function Home() {
               </p>
             </h2>
             <Container className="gap-10 px-6 items-center">
+              {/* temperature */}
               <div className="flex flex-col px-4">
                 <span className="text-5xl">
                   {convertKelvinToVelsius(firstData?.main.temp ?? 300.99)}°
@@ -137,6 +139,21 @@ export function Home() {
                     {convertKelvinToVelsius(firstData?.main.temp_max ?? 0)}°↑
                   </span>
                 </p>
+              </div>
+              {/* time and weather icon */}
+              <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between pr-3">
+                {data?.list.map((d, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"
+                  >
+                    <p className="whitespace-nowrap">
+                      {format(parseISO(d.dt_txt), "h:mm a")}
+                    </p>
+                    <WeatherIcon iconName={d.weather[0].icon} />
+                    <p>{convertKelvinToVelsius(d?.main.temp ?? 0)}°</p>
+                  </div>
+                ))}
               </div>
             </Container>
           </div>
