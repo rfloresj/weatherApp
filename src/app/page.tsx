@@ -4,6 +4,9 @@ import Image from "next/image";
 import NavBar from "../components/NavBar";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
+import { format, parseISO } from "date-fns";
+import Container from "@/components/container";
+import { convertKelvinToVelsius } from "@/utils/convertKelvinToCelsius";
 
 //
 
@@ -84,22 +87,63 @@ export function Home() {
     "repoData",
     async () => {
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
+        `https://api.openweathermap.org/data/2.5/forecast?q=mexico&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
       );
       return data;
     }
-    // fetch(
-    //   `https://api.openweathermap.org/data/2.5/forecast?q=pune&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
-    // ).then((res) => res.json())
   );
+
+  const firstData = data?.list[0];
 
   console.log("data", data);
 
-  if (isLoading) return "Loading...";
+  if (isLoading)
+    return (
+      <div className="flex items-center min-h-screen justify-center">
+        <p className="animate-bounce">Loading...</p>
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <NavBar />
+      <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
+        {/* today data */}
+        <section className="space-y-4">
+          <div className="space-y-2">
+            <h2 className="flex gap-1 text-2xl items-end">
+              <p>{format(parseISO(firstData?.dt_txt ?? ""), "EEEE")}</p>
+              <p className="text-lg">
+                ({format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")})
+              </p>
+            </h2>
+            <Container className="gap-10 px-6 items-center">
+              <div className="flex flex-col px-4">
+                <span className="text-5xl">
+                  {convertKelvinToVelsius(firstData?.main.temp ?? 300.99)}°
+                </span>
+                <p className="text-xs space-x-1 whitespace-nowrap">
+                  <span>Feels like</span>
+                  <span>
+                    {convertKelvinToVelsius(firstData?.main.feels_like ?? 0)}°
+                  </span>
+                </p>
+                <p className="text-xs space-x-2">
+                  <span>
+                    {convertKelvinToVelsius(firstData?.main.temp_min ?? 0)}°↓{" "}
+                  </span>
+                  <span>
+                    {" "}
+                    {convertKelvinToVelsius(firstData?.main.temp_max ?? 0)}°↑
+                  </span>
+                </p>
+              </div>
+            </Container>
+          </div>
+        </section>
+        {/* 7 day forcast data */}
+        <section></section>
+      </main>
     </div>
   );
 }
