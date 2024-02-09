@@ -161,6 +161,19 @@ export function Home() {
               </div>
             </Container>
           </div>
+          <div className="flex gap-4">
+            {/* left */}
+            <Container className="w-fit justify-center flex-col px-4 items-center">
+              <p>{firstData?.weather[0].description}</p>
+              <WeatherIcon
+                iconName={getDayNightIcon(
+                  firstData?.weather[0].icon ?? "",
+                  firstData?.dt_txt ?? ""
+                )}
+              />
+            </Container>
+            {/* right */}
+          </div>
         </section>
         {/* 7 day forcast data */}
         <section className="flex w-full flex-col gap-4">
