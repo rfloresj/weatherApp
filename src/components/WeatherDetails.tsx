@@ -4,14 +4,14 @@ import { ImMeter } from "react-icons/im";
 import { LuEye, LuSunrise, LuSunset } from "react-icons/lu";
 import { MdAir } from "react-icons/md";
 
-export interface WeatherDetailsProps {
+export type WeatherDetailsProps = {
   visibility: string;
   humidity: string;
   windSpeed: string;
   airPressure: string;
   sunrise: string;
   sunset: string;
-}
+};
 
 export default function WeatherDetails(props: WeatherDetailsProps) {
   const {

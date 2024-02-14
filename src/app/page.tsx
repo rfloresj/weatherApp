@@ -5,10 +5,12 @@ import NavBar from "../components/NavBar";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
-import Container from "@/components/container";
+import Container from "@/components/Container";
 import { convertKelvinToVelsius } from "@/utils/convertKelvinToCelsius";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getDayNightIcon } from "@/utils/getDayNightIcon";
+import { metersToKilometers } from "@/utils/metersToKilometers";
+import WeatherDetails from "@/components/WeatherDetails";
 
 //
 
@@ -174,7 +176,12 @@ export function Home() {
                 )}
               />
             </Container>
-            <Container className="bg-yellow-300/80 px-6 gap-4 justify-between overflow-auto"></Container>
+            <Container className="bg-yellow-300/80 px-6 gap-4 justify-between overflow-auto">
+              <WeatherDetails
+                visibility={metersToKilometers(firstData?.visibility ?? 10000)}
+                airPressure={`${firstData?.main.pressure} hPa`}
+              />
+            </Container>
             {/* right */}
           </div>
         </section>
