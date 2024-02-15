@@ -4,7 +4,7 @@ import Image from "next/image";
 import NavBar from "../components/NavBar";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
-import { format, parseISO } from "date-fns";
+import { format, fromUnixTime, parseISO } from "date-fns";
 import Container from "@/components/Container";
 import { convertKelvinToVelsius } from "@/utils/convertKelvinToCelsius";
 import WeatherIcon from "@/components/WeatherIcon";
@@ -180,6 +180,15 @@ export function Home() {
               <WeatherDetails
                 visibility={metersToKilometers(firstData?.visibility ?? 10000)}
                 airPressure={`${firstData?.main.pressure} hPa`}
+                humidity={`${firstData?.main.humidity}%`}
+                sunrise={format(
+                  fromUnixTime(data?.city.sunrise ?? 1702949452),
+                  "H:mm"
+                )}
+                sunset={format(
+                  fromUnixTime(data?.city.sunset ?? 1702517657),
+                  "H:mm"
+                )}
               />
             </Container>
             {/* right */}
