@@ -11,6 +11,7 @@ import WeatherIcon from "@/components/WeatherIcon";
 import { getDayNightIcon } from "@/utils/getDayNightIcon";
 import { metersToKilometers } from "@/utils/metersToKilometers";
 import WeatherDetails from "@/components/WeatherDetails";
+import { convertWindSpeed } from "@/utils/convertWindSpeed";
 
 //
 
@@ -189,6 +190,7 @@ export function Home() {
                   fromUnixTime(data?.city.sunset ?? 1702517657),
                   "H:mm"
                 )}
+                windSpeed={convertWindSpeed(firstData?.wind.speed ?? 1.65)}
               />
             </Container>
             {/* right */}
