@@ -19,6 +19,16 @@ export interface ForecastWeatherDetailProps extends WeatherDetailsProps {
 export default function ForecastWeatherDetail(
   props: ForecastWeatherDetailProps
 ) {
+  const {
+    weatherIcon = "02d",
+    date = "19.09",
+    day = "Tuesday",
+    temp,
+    feels_like,
+    temp_min,
+    temp_max,
+    description,
+  } = props;
   return (
     <Container className="gap-4">
       <section className="flex gap-4 items-center px-4">
