@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from './Container';
 import WeatherIcon from './WeatherIcon';
-import { WeatherDetailsProps } from './WeatherDetails';
+import WeatherDetails, { WeatherDetailsProps } from './WeatherDetails';
 import { convertKelvinToCelsius } from '@/utils/convertKelvinToCelsius';
 
 type Props = {};
@@ -32,6 +32,7 @@ export default function ForecastWeatherDetail(
   } = props;
   return (
     <Container className='gap-4'>
+      {/* left section */}
       <section className='flex gap-4 items-center px-4'>
         <div>
           <WeatherIcon iconName={weatherIcon} />
@@ -39,7 +40,6 @@ export default function ForecastWeatherDetail(
           <p className='text-sm'>{day}</p>
         </div>
 
-        {/*  */}
         <div className='flex flex-col px-4'>
           <span className='text-5xl'>{convertKelvinToCelsius(temp ?? 0)}°</span>
           <p className='text-xs space-x-1 whitespace-nowrap'>
@@ -48,6 +48,10 @@ export default function ForecastWeatherDetail(
           </p>
           <p className='capitalize'>{description}</p>
         </div>
+      </section>
+      {/* right section */}
+      <section className='overflow-x-auto flex justify-between gap-4 px-4 w-full pr-10 '>
+        <WeatherDetails {...props} />
       </section>
     </Container>
   );

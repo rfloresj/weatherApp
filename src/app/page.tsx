@@ -102,6 +102,14 @@ export function Home() {
 
   console.log('data', data);
 
+  const uniqueDates = [
+    ...new Set(
+      data?.list.map(
+        (entry) => new Date(entry.dt * 1000).toISOString().split('T')[0]
+      )
+    ),
+  ];
+
   if (isLoading)
     return (
       <div className='flex items-center min-h-screen justify-center'>
@@ -199,6 +207,7 @@ export function Home() {
         {/* 7 day forcast data */}
         <section className='flex w-full flex-col gap-4'>
           <p className='text-2xl'>Forcast (7 days)</p>
+          <ForecastWeatherDetail />
         </section>
       </main>
     </div>
