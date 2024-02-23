@@ -12,6 +12,7 @@ import { getDayNightIcon } from '@/utils/getDayNightIcon';
 import { metersToKilometers } from '@/utils/metersToKilometers';
 import WeatherDetails from '@/components/WeatherDetails';
 import { convertWindSpeed } from '@/utils/convertWindSpeed';
+import ForecastWeatherDetail from '@/components/ForecastWeatherDetail';
 
 //
 
@@ -216,7 +217,31 @@ export function Home() {
         {/* 7 day forcast data */}
         <section className='flex w-full flex-col gap-4'>
           <p className='text-2xl'>Forcast (7 days)</p>
-          <ForecastWeatherDetail />
+          {firstDataForEachDate.map((d, i) => (
+            <ForecastWeatherDetail
+              key={i}
+              description={d?.weather[0].description ?? ''}
+              weatherIcon={d?.weather[0].icon ?? '01d'}
+              date={format(parseISO(d?.dt_txt ?? ''), 'dd.MM')}
+              day={format(parseISO(d?.dt_txt ?? ''), 'EEEE')}
+              feels_like={d?.main.feels_like ?? 0}
+              temp={d?.main.temp ?? 0}
+              temp_max={d?.main.temp_max ?? 0}
+              temp_min={d?.main.temp_min ?? 0}
+              airPressure={`${d?.main.pressure} hPa `}
+              humidity={`${d?.main.humidity}% `}
+              sunrise={format(
+                fromUnixTime(data?.city.sunrise ?? 1702517657),
+                'H:mm'
+              )}
+              sunset={format(
+                fromUnixTime(data?.city.sunset ?? 1702517657),
+                'H:mm'
+              )}
+              visibility={`${metersToKilometers(d?.visibility ?? 10000)}`}
+              windSpeed={`${convertWindSpeed(d?.wind.speed ?? 1.64)}`}
+            />
+          ))}
         </section>
       </main>
     </div>
