@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { BsSun } from 'react-icons/bs';
 import { GrMapLocation } from 'react-icons/gr';
@@ -32,6 +34,9 @@ export default function NavBar({}: Props) {
         setSuggestions([]);
         setShowSuggestions(false);
       }
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
     }
   }
 
@@ -47,16 +52,25 @@ export default function NavBar({}: Props) {
           <SlLocationPin className='text-2xl text-gray-700 hover:opacity-60 cursor-pointer' />
           <GrMapLocation className='text-2xl border-0' />
           <p className='text-slate-900/80 text-sm pl-1'> Mexico </p>
-          <div>
+          <div className='relative'>
             {/* SearchBox */}
             <SearchBox
               value={city}
               // onSubmit={}
               onChange={(e) => handleInputChange(e.target.value)}
             />
+            <SuggestionBox />
           </div>
         </section>
       </div>
     </nav>
+  );
+}
+
+function SuggestionBox() {
+  return (
+    <ul className='mb-4 bg-white absolute border top-[44px] left-0 border-gray-300 rounded-md min-w-[200px] flex flex-col gap-1 py-2 px-2'>
+      <li></li>
+    </ul>
   );
 }
