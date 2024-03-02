@@ -45,6 +45,15 @@ export default function NavBar({}: Props) {
     setShowSuggestions(false);
   }
 
+  function handleSubmiSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (suggestions.length == 0) {
+      setError('Location not found');
+    } else {
+      setError('');
+      setShowSuggestions(false);
+    }
+  }
   return (
     <nav className='shadow-sm sticky top-0 left-0 z-50 bg-white'>
       <div className='h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto'>
@@ -61,7 +70,7 @@ export default function NavBar({}: Props) {
             {/* SearchBox */}
             <SearchBox
               value={city}
-              // onSubmit={}
+              onSubmit={handleSubmiSearch}
               onChange={(e) => handleInputChange(e.target.value)}
             />
             <SuggestionBox
