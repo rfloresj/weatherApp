@@ -6,6 +6,8 @@ import { GrMapLocation } from 'react-icons/gr';
 import { SlLocationPin } from 'react-icons/sl';
 import SearchBar from '../components/SearchBar';
 import axios from 'axios';
+import { placeAtom } from '@/app/atom';
+import { useAtom } from 'jotai';
 
 type Props = {};
 
@@ -17,6 +19,8 @@ export default function NavBar({}: Props) {
   //
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const [place, setPlace] = useAtom(placeAtom);
 
   async function handleInputChange(value: string) {
     setCity(value);
