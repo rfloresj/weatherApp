@@ -13,7 +13,9 @@ import { metersToKilometers } from '@/utils/metersToKilometers';
 import WeatherDetails from '@/components/WeatherDetails';
 import { convertWindSpeed } from '@/utils/convertWindSpeed';
 import ForecastWeatherDetail from '@/components/ForecastWeatherDetail';
-
+import { placeAtom } from './atom';
+import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 //
 
 interface WeatherData {
@@ -89,15 +91,21 @@ const data: WeatherData = {
 const queryClient = new QueryClient();
 
 export function Home() {
-  const { isLoading, error, data } = useQuery<WeatherData>(
+  const [place, setPlace] = useAtom(placeAtom);
+
+  const { isLoading, error, data, refetch } = useQuery<WeatherData>(
     'repoData',
     async () => {
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=mexico&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
       );
       return data;
     }
   );
+
+  useEffect(() => {
+    refetch();
+  }, [place, refetch]);
 
   const firstData = data?.list[0];
 

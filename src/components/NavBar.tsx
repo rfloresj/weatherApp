@@ -55,6 +55,7 @@ export default function NavBar({}: Props) {
       setError('Location not found');
     } else {
       setError('');
+      setPlace(city);
       setShowSuggestions(false);
     }
   }
@@ -72,7 +73,7 @@ export default function NavBar({}: Props) {
           <p className='text-slate-900/80 text-sm pl-1'> Mexico </p>
           <div className='relative'>
             {/* SearchBox */}
-            <SearchBox
+            <SearchBar
               value={city}
               onSubmit={handleSubmiSearch}
               onChange={(e) => handleInputChange(e.target.value)}
