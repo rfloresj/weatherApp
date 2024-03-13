@@ -6,14 +6,14 @@ import { GrMapLocation } from 'react-icons/gr';
 import { SlLocationPin } from 'react-icons/sl';
 import SearchBar from '../components/SearchBar';
 import axios from 'axios';
-import { placeAtom } from '@/app/atom';
+import { loadingCityAtom, placeAtom } from '@/app/atom';
 import { useAtom } from 'jotai';
 
-type Props = {};
+type Props = { location?: string };
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
-export default function NavBar({}: Props) {
+export default function NavBar({ location }: Props) {
   const [city, setCity] = useState('');
   const [error, setError] = useState('');
   //
@@ -21,6 +21,7 @@ export default function NavBar({}: Props) {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [place, setPlace] = useAtom(placeAtom);
+  const [_, setLoadingCity] = useAtom(loadingCityAtom);
 
   async function handleInputChange(value: string) {
     setCity(value);
@@ -50,13 +51,18 @@ export default function NavBar({}: Props) {
   }
 
   function handleSubmiSearch(e: React.FormEvent<HTMLFormElement>) {
+    setLoadingCity(true);
     e.preventDefault();
     if (suggestions.length == 0) {
       setError('Location not found');
+      setLoadingCity(false);
     } else {
       setError('');
-      setPlace(city);
-      setShowSuggestions(false);
+      setTimeout(() => {
+        setLoadingCity(false);
+        setPlace(city);
+        setShowSuggestions(false);
+      }, 500);
     }
   }
   return (
@@ -70,7 +76,7 @@ export default function NavBar({}: Props) {
         <section className='flex gap-2 items-center'>
           <SlLocationPin className='text-2xl text-gray-700 hover:opacity-60 cursor-pointer' />
           <GrMapLocation className='text-2xl border-0' />
-          <p className='text-slate-900/80 text-sm pl-1'> Mexico </p>
+          <p className='text-slate-900/80 text-sm pl-1'> {location} </p>
           <div className='relative'>
             {/* SearchBox */}
             <SearchBar
